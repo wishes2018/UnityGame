@@ -10,6 +10,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Basic.Custom
 		private Vector3 curPoint;
 
 		public override void OnStart(){
+			Random.seed = System.DateTime.Now.Millisecond;
 			originPos = transform.position;
 			curPoint = GeneratePoint();
 			GetComponent<Animator> ().Play ("walk");
@@ -23,7 +24,6 @@ namespace BehaviorDesigner.Runtime.Tasks.Basic.Custom
 			transform.position = Vector3.MoveTowards(transform.position, curPoint, speed * Time.deltaTime);
 			return TaskStatus.Running;
 		}
-
 
 		private Vector3 GeneratePoint(){
 			float x = Random.Range (1, 5);

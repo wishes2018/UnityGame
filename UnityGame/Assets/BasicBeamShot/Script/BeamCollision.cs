@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using BehaviorDesigner.Runtime;
 
 public class BeamCollision : MonoBehaviour {
 	
@@ -44,6 +45,9 @@ public class BeamCollision : MonoBehaviour {
                 GameObject obj = (GameObject)Instantiate(HitEffect,this.transform.position+this.transform.forward*hit.distance,Angle);
 				obj.GetComponent<BeamParam>().SetBeamParam(BP);
 				obj.transform.localScale = this.transform.localScale;
+				BehaviorTree tree = hitobj.GetComponent<BehaviorTree> ();
+				SharedBool hurted = (SharedBool)tree.GetVariable ("hurted");
+				hurted.Value = true;
 			}
 			//print("find" + hit.collider.gameObject.name);
 		}
