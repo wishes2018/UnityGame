@@ -46,8 +46,14 @@ public class BeamCollision : MonoBehaviour {
 				obj.GetComponent<BeamParam>().SetBeamParam(BP);
 				obj.transform.localScale = this.transform.localScale;
 				BehaviorTree tree = hitobj.GetComponent<BehaviorTree> ();
-				SharedBool hurted = (SharedBool)tree.GetVariable ("hurted");
-				hurted.Value = true;
+				if (tree) {
+					SharedBool hurted = (SharedBool)tree.GetVariable ("hurted");
+					SharedFloat hp = (SharedFloat)tree.GetVariable ("hp");
+					hurted.Value = true;
+					hp.Value--;
+				} else {
+					hitobj.SetActive (false);
+				}
 			}
 			//print("find" + hit.collider.gameObject.name);
 		}

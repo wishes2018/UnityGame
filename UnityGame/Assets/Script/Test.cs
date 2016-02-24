@@ -10,6 +10,7 @@ public class Test : MonoBehaviour {
 	public float warnRange;
 	private BehaviorTree tree;
 	private SharedBool hasEnemy;
+	private SharedFloat hp;
 	private SharedGameObject enemy;
 
 	// Use this for initialization
@@ -17,14 +18,22 @@ public class Test : MonoBehaviour {
 		tree = GetComponent<BehaviorTree> ();
 		hasEnemy = (SharedBool)tree.GetVariable ("hasEnemy");
 		enemy = (SharedGameObject)tree.GetVariable ("enemy");
+		hp = (SharedFloat)tree.GetVariable ("hp");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		Collider[] colliders= Physics.OverlapSphere (transform.position,warnRange);
-		if (colliders.Length > 1) {
-			hasEnemy.Value = true;
-			enemy.Value = colliders [1].gameObject;
+		Collider[] colliders= Physics.OverlapSphere (transform.position,warnRange,LayerMask.GetMask("Enemy"));
+		if (colliders.Length > 0) {
+			hp = (SharedFloat)colliders [0].gameObject.GetComponent<BehaviorTree> ().GetVariable ("hp");
+			if (hp.Value > 0) {
+				hasEnemy.Value = true;
+				enemy.Value = colliders [0].gameObject;
+			} else {
+				hasEnemy.Value = false;
+			}
+		} else {
+			hasEnemy.Value = false;
 		}
 	}
 

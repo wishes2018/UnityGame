@@ -6,12 +6,11 @@ namespace BehaviorDesigner.Runtime.Tasks.Basic.Custom
 	public class Patrol : Action
 	{
 		public float speed = 3;
-		private Vector3 originPos;
+		private Vector3 originPos = new Vector3(0,0,0);
 		private Vector3 curPoint;
 
 		public override void OnStart(){
 			Random.seed = System.DateTime.Now.Millisecond;
-			originPos = transform.position;
 			curPoint = GeneratePoint();
 			GetComponent<Animator> ().Play ("walk");
 		}
